@@ -8,11 +8,12 @@ class Token(models.Model):
 
 class post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField()
     text = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='xreenshot', default='')
+    image = models.ImageField(upload_to='screen', blank=True)
 
     def __str__(self):
-        return self.text
+        return "{}-{}".format(self.date, self.author)
 
 class Passwordresetcodes(models.Model):
     code = models.CharField(max_length=32)

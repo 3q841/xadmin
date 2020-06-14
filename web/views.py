@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from json import JSONEncoder
+from datetime import datetime
+
 from django.core import serializers
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
@@ -23,12 +25,12 @@ random_str = lambda N: ''.join(
 def sub_qustion(request):
 
     """ submit Answare of every Question """
-
+    this_date =request.POST['date'] if 'date' in request.POST else timezone.now()
     token = request.POST['token']
     this_user = User.objects.filter(token__token = token).get()
     input_image = request.FILES['image']
-    post.objects.create(auther = this_user, text=request.POST['text'],
-            image= input_image )
+    post.objects.create(author = this_user, date=this_date,
+                        text=request.POST['text'],image= input_image )
 
     return JsonResponse({
         'status' : 'ok'
@@ -66,7 +68,7 @@ def register(request):
             #                     request.build_absolute_uri('/accounts/register/'), code),
             #                 tag="account request")
             #message.send()
-            message = 'ایمیلی حاوی لینک فعال سازی اکانت به شما فرستاده شده، لطفا پس از چک کردن ایمیل، روی لینک کلیک کنید.'
+            #message = 'ایمیلی حاوی لینک فعال سازی اکانت به شما فرستاده شده، لطفا پس از چک کردن ایمیل، روی لینک کلیک کنید.'
             message = 'قدیم ها ایمیل فعال سازی می فرستادیم ولی الان شرکتش ما رو تحریم کرده (: پس راحت و بی دردسر'
             body = " برای فعال کردن اکانت بستون خود روی لینک روبرو کلیک کنید: <a href=\"{}?code={}\">لینک رو به رو</a> ".format(request.build_absolute_uri('/accounts/register/'), code)
             message = message + body
@@ -101,4 +103,10 @@ def register(request):
     else:
         context = {'message': ''}
         return render(request, 'register.html', context)
+
+def index(request):
+    context = {
+        'posts' : post.objects.reverse(),
+    }
+    return render(request , 'index.html' , context)
 
