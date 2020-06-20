@@ -2,7 +2,7 @@
 
 from json import JSONEncoder
 from datetime import datetime
-
+from django.views.generic import ListView
 from django.core import serializers
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
@@ -106,7 +106,13 @@ def register(request):
 
 def index(request):
     context = {
-        'posts' : post.objects.reverse(),
-    }
+        'posts' : post.objects.all()
+    } 
+    
     return render(request , 'index.html' , context)
 
+class PostListView(ListView):
+    model = post
+    template_name = 'index.html'
+    context_object_name = 'posts'
+    ordering = ['-date']
