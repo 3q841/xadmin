@@ -17,6 +17,30 @@ class post(models.Model):
 
 class Passwordresetcodes(models.Model):
     code = models.CharField(max_length=32)
-    email = models.CharField(max_length=120)
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
+    email = models.CharField(max_length=52)
+    username = models.CharField(max_length=36)
+    password = models.CharField(max_length=8)
+"""
+class Account(AbstractBaseUser):
+    number=models.BigInteger()
+    username= models.CharField()
+    date_joined=models.DateTimeField(verbose_name'date joined')
+    last_login=models.DateTimeField(verbose_name='last login', auto_now=True)
+    is_admin=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=True)
+    is_staff=models.BooleanField(default=False)
+    is_superuser=models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'number'
+    REQUIRED_FIELDS = [ 'username', 'number' ]
+
+    def __str__(self):
+        return self.number
+    
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+    
+    def has_module_perms(self, app_Label):
+        return True
+
+"""

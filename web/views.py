@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from json import JSONEncoder
-from datetime import datetime
+import datetime 
 from django.views.generic import ListView
 from django.core import serializers
 from django.conf import settings
@@ -38,43 +38,28 @@ def sub_qustion(request):
 
 def register(request):
     if request.POST.__contains__('requestcode'):  # form is filled. if not spam, generate code and save in db, wait for email confirmation, return message
-        # is this spam? check reCaptcha
-        #if not grecaptcha_verify(request):  # captcha was not correct
-        #    context = {
-        #        'message': 'کپچای گوگل درست وارد نشده بود. شاید ربات هستید؟ کد یا کلیک یا تشخیص عکس زیر فرم را درست پر کنید. ببخشید که فرم به شکل اولیه برنگشته!'}  # TODO: forgot password
-        #    return render(request, 'register.html', context)
 
-        # duplicate email
-        #if User.objects.filter(email=request.POST['email']).exists():
-        #    context = {
-         #       'message': 'متاسفانه این ایمیل قبلا استفاده شده است. در صورتی که این ایمیل شما است، از صفحه ورود گزینه فراموشی پسورد رو انتخاب کنین. ببخشید که فرم ذخیره نشده. درست می شه'}  # TODO: forgot password
-        #    # TODO: keep the form data
-        #    return render(request, 'register.html', context)
-        # if user does not exists
         if not User.objects.filter(username=request.POST['username']).exists():
-            code = get_random_string(length=32)
-            #now = datetime.now()
-            email = request.POST['email']
-            password = make_password(request.POST['password'])
-            username = request.POST['username']
-            temporarycode = Passwordresetcodes(
-                email=email, code=code, username=username, password=password)
-            temporarycode.save()
-            #message = PMMail(api_key=settings.POSTMARK_API_TOKEN,
-            #                 subject="فعالسازی اکانت بستون",
-            #                 sender="jadi@jadi.net",
-            #                 to=email,
-            #                 text_body=" برای فعال کردن اکانت بستون خود روی لینک روبرو کلیک کنید: {}?code={}".format(
-            #                     request.build_absolute_uri('/accounts/register/'), code),
-            #                 tag="account request")
-            #message.send()
-            #message = 'ایمیلی حاوی لینک فعال سازی اکانت به شما فرستاده شده، لطفا پس از چک کردن ایمیل، روی لینک کلیک کنید.'
-            message = 'قدیم ها ایمیل فعال سازی می فرستادیم ولی الان شرکتش ما رو تحریم کرده (: پس راحت و بی دردسر'
-            body = " برای فعال کردن اکانت بستون خود روی لینک روبرو کلیک کنید: <a href=\"{}?code={}\">لینک رو به رو</a> ".format(request.build_absolute_uri('/accounts/register/'), code)
-            message = message + body
-            context = {
-                'message': message }
-            return render(request, 'index.html', context)
+            if not User.objects.filter(email=request.POST['email']).exists():
+                code = get_random_string(length=32)
+                #now = datetime.now()
+                email= request.POST['email']
+                password = make_password(request.POST['password'])
+                username = request.POST['username']
+                temporarycode = Passwordresetcodes(
+                    email=email, code=code, username=username, password=password)
+                temporarycode.save()
+                message = ' Wellcome '
+                body = " برای فعال کردن اکانت خود روی لینک روبرو کلیک کنید: <a href=\"{}?code={}\">لینک رو به رو</a> ".format(request.build_absolute_uri('/accounts/register/'), code)
+                message = message + body
+                context = {
+                    'message': message }
+                return render(request, 'index.html', context)
+            else:
+                context = {
+                    'message': 'متاسفانه این شماره دانشجوی قبلا استفاده شده است. ببخشید که فرم ذخیره نشده. درست می شه'}  # TODO: forgot password
+                # TODO: keep the form data
+                return render(request, 'register.html', context)
         else:
             context = {
                 'message': 'متاسفانه این نام کاربری قبلا استفاده شده است. از نام کاربری دیگری استفاده کنید. ببخشید که فرم ذخیره نشده. درست می شه'}  # TODO: forgot password
@@ -92,9 +77,13 @@ def register(request):
             token = Token.objects.create(user=newuser, token=this_token)
             # delete the temporary activation code from db
             Passwordresetcodes.objects.filter(code=code).delete()
+            massage = ' .اکانت شما با موفقیت ساخته شد'
+            head = ' توکن شماعبارت است از : {}'.format(this_token)
+            body = '  آن را ذخیره کنید چون دیگر نمایش داده نخواهد شد! جدی'
+            massage = massage + head + body 
             context = {
-                'message': 'اکانت شما ساخته شد. توکن شما {} است. آن را ذخیره کنید چون دیگر نمایش داده نخواهد شد! جدی!'.format(
-                    this_token)}
+                'message': massage 
+            }
             return render(request, 'index.html', context)
         else:
             context = {
@@ -105,14 +94,19 @@ def register(request):
         return render(request, 'register.html', context)
 
 def index(request):
-    context = {
-        'posts' : post.objects.all()
-    } 
+    post_list_l= post.objects.all().order_by('-date')[0:4]
+    post_list_m= post.objects.all().order_by('-date')[4:8]
+    post_list_r= post.objects.all().order_by('-date')[8:12]
     
-    return render(request , 'index.html' , context)
+    context = {
+        'posts_l': post_list_l,
+        'posts_m': post_list_m,
+        'posts_r': post_list_r,
+    }
+    return render(request , 'index.html' , context )
 
-class PostListView(ListView):
-    model = post
-    template_name = 'index.html'
-    context_object_name = 'posts'
-    ordering = ['-date']
+#class PostListView(ListView):   
+ #   model = post
+## template_name = 'index.html'
+ #   context_object_name = 'posts'
+ #   ordering = ['-date']

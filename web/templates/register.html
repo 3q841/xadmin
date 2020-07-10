@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<script src='https://www.google.com/recaptcha/api.js'></script>
+
 
 <div class="row">
     <div class="col-lg-12">
@@ -23,10 +23,10 @@
     </p>
     {% endif %}
 {% endif %}
-<p>
+<p style="text-align: center;">
 اگر اینجا هستین حتما می دونین ماجرا چیه، برای عضو شدن از فرم زیر شروع کنین
 </p>
-<p>
+<p style="text-align: center;">
   البته این فعلا یک سیستم شخصی است و این یک نکته مثبته: من این رو برای استفاده خودم توسعه می دم و در نتیجه دائما باید برای یک استفاده کننده واقعی بهینه بشه. اگر شما
   هم گپ یا پیشنهادی درموردش داشتین
   <a href="#">
@@ -35,7 +35,7 @@
 </p>
 
   {% if message %}
-  <div class="bs-callout bs-callout-info">
+  <div style="text-align: center">
     <h5>{{ message|safe }}</h5>
   </div>
   {% endif %}
@@ -43,11 +43,11 @@
 
 
 
-  <div class="row">
+  <div style="text-align: center">
     <div class="col-md-6 col-md-offset-3">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">ثبت نام</h3>
+          <h3 class="panel-title"><strong></strong></h3>
         </div>
         <div class="panel-body">
           <form class="form-horizontal" method="POST" action="{% url 'register' %}">
@@ -56,19 +56,19 @@
             <input type="hidden" name="next" value="{{ next }}" />
             <div class="form-group">
               <label for="username" class="col-sm-2 control-label" >نام کاربری</label>
-              <div class="col-sm-10">
+              <div class="col-sm-10" dir="rtl">
                 <input type="text" name="username" class="form-control" placeholder="حداقل سه کاراکتر" required pattern=".{3,}">
               </div>
             </div>
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">ایمیل شما</label>
-              <div class="col-sm-10">
-                <input type="email" name="email" class="form-control"  placeholder="لینک تایید ساخت اکانت به این آدرس فرستاده می‌شود" required>
+              <div class="col-sm-10" dir="rtl">
+                <input type="email" name="email" class="form-control"  placeholder="" required pattern=".\d{2}@xrr.orginal" size="52">
               </div>
             </div>
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label" >کلمه عبور</label>
-              <div class="col-sm-10">
+              <div class="col-sm-10" dir="rtl">
                 <input type="password" name="password" class="form-control"  placeholder="حداقل پنج کاراکتر" required pattern=".{5,}">
               </div>
             </div>
@@ -77,7 +77,7 @@
 
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">درخواست ایمیل فعال‌سازی اکانت</button>
+                <button type="submit" class="btn btn-primary btn-xl shadow">درخواست ایمیل فعال‌سازی اکانت</button>
               </div>
             </div>
           </form>

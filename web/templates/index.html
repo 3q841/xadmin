@@ -3,151 +3,54 @@
 {% load static %}
 
 {% block content %}
-<div class="row">
-  <div class="col-md-12">
-    <div class="alert alert-info" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <a href="#">
- ممنون که مارو در پروژه نوشابه همراهی میکنید :)
-      </a>
-    </div>
-  </div>
-</div>
+
   {% if message %}
-  <div class="bs-callout bs-callout-info">
-    <h5>{{ message|safe }}</h5>
+  <div >
+    <h2 style="text-align: center;" dir="rtl">{{ message | safe }}</h2>
   </div>
   {% endif %}
 
-
-
-  <div class="container">
-      {% for post in posts %}
-    <div class="card">
-      <div class="card-img">
-        <img src="{{ post.image.url }}" />
+<section id="main">
+    <section class="thumbnails">
+      <div>
+        {% for post in posts_l %} 
+        
+        <a href="{{ post.image.url }}">
+          <img src="{{ post.image.url }}" alt=""/>
+          <h2> {{ post.text }}</h2>
+        </a>
+        
+        {% endfor %}
       </div>
-      <div class="card-body">
-        <h2 class="card-title" >
-              {{post.author}} at {{ post.date|date:"h:m D, Y" }}
-        </h2>
-        <h2 class="card-intro">
-          {{ post.text }}
-        </h2>
+        <div>
+        {% for post in posts_m %} 
+        
+        <a href="{{ post.image.url }}">
+          <img src="{{ post.image.url }}" alt=""/>
+          <h2> {{ post.text }}</h2>
+        </a>
+        
+        {% endfor %}
       </div>
+      <div>
+        {% for post in posts_r %} 
+        
+        <a href="{{ post.image.url }}">
+          <img src="{{ post.image.url }}" alt=""/>
+          <h2> {{ post.text }}</h2>
+        </a>
+        
+        {% endfor %}
       </div>
-      {% endfor %}
-  </div>
+  </section>
+</section>
 
-<div class="row">
-
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">نوشابه</h3>
-        </div>
-        <div class="panel-body">
-
-<p>
-    نوشابه یک پروژه ساخت دوتا از دانشجوهای خلاقه که میخوان از شر درس های بی استفاده
-    دانشگاه خلاص بشن ولی با نمره کامل :) به لطف ویرویس عزیزمون که قربونش برم کرونا جون میتونیم
-    یک تقلب خوب و دوست داشتنی رو تجربه کنیم
-</p>
-<p>
-برای باز کردن اکانت
-<a href="{% url 'register' %}">به صفحه رجیستر شدن برین</a>
-و برای اطلاعات بیشتر مراجعه بکنین به
-<a href="#">
-  گیت هاب پروژه.
-</a>
-</p>
-        </div>
-        <p>
-
-        </p>
-      </div>
-
-
-<br /><br />
+<script src="{% static 'js/jquery.min.js' %}"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{% static 'js/jquery.poptrox.min.js' %}"></script>
+        <script src="{% static 'js/skel.min.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
 
 
 
-</div>
-
-<div class="col-md-6">
-  <div class="panel panel-default">
-    <div class="panel-body">
-
-      <div class="panel-heading">
-        <h3 class="panel-title">
-            ماجرا چیه؟
-        </h3>
-      </div>
-  <p>
-      این در واقع یک سیستم برای ارسال عکس صفحه نمایش دستگاه و همچنین یک متن ساده برای راهنمایی دیگر دوستان است
-      به شیوه ای که افراد که در حال امتحان مجازی هستن. در این وب اکانت خود را ساخته و یک توکن میگیرند 
-      با استفاده از توکن گرفته شده. برنامه مارا دانلود و اجرا کنید
-      بعد از اجرای برنامه. با زدن دکمه print screen در صفحه کلید. عکس سوال همراه با متنی که 
-      چند ثانیه قبل با کیبورد نوشته اید به صورت خودکار به وب سایت اضافه میشود
-      حال نوبت دوستان شماست که همین کار را انجام دهند
-      شما در یک صفحه نمایش دیگر مانند گوشی هوشمندتان میتوانید عکس های بقیه را ببینید و 
-      جواب را پیدا کنید.
-      <a href="#">
-        من قدم به قدم کارهایی که برای راه انداختن اینجا دارم می‌کنم رو منتشر کرده‌ام
-      </a>
-      .
-  </p>
-  <p>
-      در حال حاضر برای استفاده از این سیستم باید قدم‌های زیر رو پیش برین:
-
-      <ul>
-      <li> از صفحه رجیستریشن که این بغل و اون بالاست، ثبت نام کنین و توکن دریافت کنین</li>
-      <li> از یکی از کلاینت‌ها برای اتصال استفاده کنین. فعلا تنها کلاینت ما <a href="https://github.com/jadijadi/bestoon/tree/master/clients/commandline">کلاینت‌های کامند لاینی هستن که با کرل کار می کنن و لازمه کدی که دریافت کردین رو توی فایل کانفیگشون وارد کنین</a>. منطقاً در آینده کلاینت تحت وب و اپ و غیره هم خواهیم داشت.
-      <li> قبل امتحان با دوستاتون شروع رو بزنید تا اطلاعات تبادل بشن</li>
-      </ul>
-
-  </p>
-    </div>
-  </div>
-</div>
-
-</div>
-{% endblock %}
-
-
-{% block footer %}
-
-<script >
-$(document).ready(function () {
-        $(".subtaskinput").fadeOut(0);
-        $('.fa-square-o').hover(function () {
-            $(this).addClass('fa-check-square-o');
-            $(this).removeClass('fa-square-o');
-        }, function () {
-            $(this).addClass('fa-square-o');
-            $(this).removeClass('fa-check-square-o');
-        });
-
-});
-
-function showsubtaskinput(elementid){
-  if ($('.btn-'+elementid).text() == '+') {
-    $('.subtask-'+elementid).fadeIn(250);
-    $('.subtask-'+elementid).focus();
-    $('.btn-'+elementid).text ('-');
-  }
-  else {
-    $('.subtask-'+elementid).fadeOut(250);
-    $('.btn-'+elementid).text ('+');
-  }
-  // دگمه رو عوض کنیم به منفی و اگر منفی رو زد المنت رو حذف کنیم
-  return 0;
-}
-</script>
-
-<script type="text/javascript">
-$(".alert").fadeTo(10000, 500).slideUp(500, function(){
-    $(".alert").slideUp(10000);
-});
-</script>
 {% endblock %}

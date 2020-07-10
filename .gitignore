@@ -1,6 +1,2 @@
-*.py[cod]
 db.sqlite3
-*.db
-*.png
-settings.cpython-38.pyc
 
