@@ -2647,8 +2647,7 @@
 	letter-spacing: 0.1rem;
 }
 .shadow {
-	box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 37, 41, 0.15)
-	!important;
+	box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 37, 41, 0.15);
 }
 .btn-primary {
 	color: yellowgreen;

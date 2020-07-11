@@ -1,6 +1,18 @@
 from django.db import models
+from io import BytesIO
+from PIL import Image
+from django.core.files import File
 # Create your models here.
 from django.contrib.auth.models import User
+
+## image compression method
+
+def compress(image):
+    im = Image.open(image)
+    im_io = BytesIO()
+    im.save(im_io , 'JPEG' , Quality=60)
+    new_image = File(im_io, name=image.name)
+    return new_image 
 
 class Token(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -9,8 +21,13 @@ class Token(models.Model):
 class post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField()
-    text = models.CharField(max_length=255)
+    text = models.CharField(max_length=255, null=True , blank=True)
     image = models.ImageField(upload_to='screen', blank=True)
+
+    def save(self, *args, **kwargs):
+        new_image = compress(self.image)
+        self.image = new_image
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return "{}-{}".format(self.date, self.author)
